@@ -387,17 +387,19 @@ namespace ariel
         // if the other graph has more vertices or edges it cant be a sub graph of the this graph
         if (other.num_vertices > this->num_vertices || other.num_edges > this->num_edges)
         {
+
             return false;
         }
+
         int count = 0;
 
         // for a graph in this class to be an sub graph it need to have the same vertices and the same edges
-        //  for exemple if in g1 has an edge 1 -> 2 in wight 3 also g2 need tp have the same edge withe the same wight from 1 -> 2
+        //  for exemple if in g1 has an edge 1 -> 2 in wight 3 also g2 need tp have the same edge withe the same wight or bigger from 1 -> 2
         for (size_t i = 0; i < other.num_vertices; ++i)
         {
             for (size_t j = 0; j < other.num_vertices; ++j)
             {
-                if (adjacency_matrix[i][j] == other.adjacency_matrix[i][j])
+                if (adjacency_matrix[i][j] >= other.adjacency_matrix[i][j])
                 {
                     count++;
                 }
@@ -415,6 +417,7 @@ namespace ariel
 
     bool Graph::operator>(const Graph &other) const
     {
+
         if (other.isSubmatrix(*this) || checkIfMatrixEquel(other)) // if this graph is sub graph of other graph or they are equels so this not > the other
         {
             return false;
@@ -450,7 +453,33 @@ namespace ariel
 
     bool Graph::operator<(const Graph &other) const
     {
-        return !(*this >= other);
+
+        if (checkIfMatrixEquel(other)) // if this graph is sub graph of other graph or they are equels so this not > the other
+        {
+            return false;
+        }
+        if (other.isSubmatrix(*this))
+        {
+            return true;
+        }
+        if (this->num_edges < other.num_edges)
+        {
+            return true;
+        }
+        else if (this->num_edges > other.num_edges)
+        {
+            return false;
+        }
+
+        if (this->num_vertices > other.num_vertices)
+        {
+            return false;
+        }
+        else if (this->num_vertices < other.num_vertices)
+        {
+            return true;
+        }
+        return false;
     }
 
     bool Graph::operator<=(const Graph &other) const
@@ -482,6 +511,7 @@ namespace ariel
 
     bool Graph::operator==(const Graph &other) const
     {
+
         if (checkIfMatrixEquel(other) == true)
         { // check if the matrixes equel
             return true;

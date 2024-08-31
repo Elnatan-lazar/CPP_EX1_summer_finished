@@ -17,12 +17,15 @@ int main()
     ariel::Graph g;
     // 3x3 matrix that represents a connected graph.
     vector<vector<int>> graph = {
-        {0, 1, 0},
-        {1, 0, 1},
-        {0, 1, 0}};
+        {0, 5, 0, 0, 0, 0}, // a not directed graph and not connected
+        {5, 0, 5, 0, 0, 0},
+        {0, 5, 0, 0, 0, 0},
+        {0, 0, 0, 0, 10, 0},
+        {0, 0, 0, 10, 0, 10},
+        {0, 0, 0, 0, 10, 0}};
     g.loadGraph(graph); // Load the graph to the object.
 
-    g.printGraph();                                    // Should print: "Graph with 3 vertices and 4 edges."
+    std::cout << g;                                    // Should print: "Graph with 3 vertices and 4 edges."
     cout << Algorithms::isConnected(g) << endl;        // Should print: "1" (true).
     cout << Algorithms::shortestPath(g, 0, 2) << endl; // Should print: 0->1->2.
     cout << Algorithms::isContainsCycle(g) << endl;    // Should print: "0" (false).
@@ -106,4 +109,15 @@ int main()
     {
         cout << e.what() << endl; // Should print "The number of columns in the first matrix must be equal to the number of rows in the second matrix."
     }
+
+    std::vector<std::vector<int>> graph10 = {
+        {0, 1, 0, 3},  // A
+        {0, 0, -1, 0}, // B
+        {0, 0, 0, -1}, // C
+        {0, -1, 0, 0}  // D
+    };
+    // ariel::Graph g5;
+    g5.loadGraph(graph10);
+    std::cout << "check negetive cycle \n";
+    std::cout << Algorithms::negativeCycle(g5);
 }

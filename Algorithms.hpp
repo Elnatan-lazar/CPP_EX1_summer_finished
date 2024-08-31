@@ -14,6 +14,7 @@ namespace ariel
         static std::string shortestPath(const Graph &g, int start, int end);
         static bool isContainsCycle(const Graph &g);
         static std::string isBipartite(const Graph &g);
+        static std::string negativeCycle(const Graph &g);
     };
 
 } // namespace ariel

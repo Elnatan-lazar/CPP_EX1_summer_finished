@@ -1,6 +1,8 @@
 #include "doctest.h"
 #include "Algorithms.hpp"
 #include "Graph.hpp"
+#include <iostream>
+#include <stdio.h>
 
 using namespace std;
 using namespace ariel;
@@ -42,7 +44,7 @@ TEST_CASE("Test shortestPath")
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
     g.loadGraph(graph2);
-    CHECK(ariel::Algorithms::shortestPath(g, 0, 4) == "-1");
+    CHECK(ariel::Algorithms::shortestPath(g, 0, 4) == "-1 (no short path)");
 }
 TEST_CASE("Test isContainsCycle")
 {
@@ -80,7 +82,7 @@ TEST_CASE("Test isBipartite")
         {0, 0, 1, 0, 0},
         {0, 0, 0, 0, 0}};
     g.loadGraph(graph2);
-    CHECK(ariel::Algorithms::isBipartite(g) == "0");
+    CHECK(ariel::Algorithms::isBipartite(g) == "0 (no bipartite)");
 
     vector<vector<int>> graph3 = {
         {0, 1, 0, 0, 0},
@@ -222,7 +224,7 @@ TEST_CASE("Test comparison operators 14")
     vector<vector<int>> graph1 = {
         {0, 1, 0},
         {1, 0, 1},
-        {0, 1, 0}};
+        {0, 0, 0}};
     vector<vector<int>> graph2 = {
         {0, 2, 0},
         {2, 0, 2},
@@ -230,16 +232,17 @@ TEST_CASE("Test comparison operators 14")
     vector<vector<int>> graph3 = {
         {0, 1, 0},
         {1, 0, 1},
-        {0, 1, 0}};
+        {0, 0, 0}};
 
     g1.loadGraph(graph1);
     g2.loadGraph(graph2);
     g3.loadGraph(graph3);
 
     // CHECK(g1 < g2);
-    CHECK(g2 > g1);
-    CHECK(g1 == g3);
-    // CHECK(g1 != g2);
-    //   CHECK(g1 <= g3);
-    //   CHECK(g2 >= g1);
+
+    CHECK((g2 > g1) == true);
+    CHECK((g1 == g3) == true);
+    CHECK((g1 != g2) == true);
+    CHECK((g1 <= g3) == true);
+    CHECK((g2 >= g1) == true);
 }
