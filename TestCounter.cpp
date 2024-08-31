@@ -15,6 +15,7 @@ struct ReporterCounter : public ConsoleReporter
     {
         if (run_stats.numAsserts >= MIN_TESTS)
         {
+            std::cout << "Number of test " << run_stats.numAsserts << std::endl;
             return_code = 0;
         }
         else
@@ -30,6 +31,7 @@ REGISTER_REPORTER("counter", 1, ReporterCounter);
 
 int main(int argc, char **argv)
 {
+    std::cout << "runinig testcounter!!!!!!\n";
     Context context;
     context.addFilter("reporters", "counter");
     context.run();
