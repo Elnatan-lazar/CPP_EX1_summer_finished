@@ -247,3 +247,37 @@ TEST_CASE("Test comparison operators 14")
     CHECK((g1 <= g3) == true);
     CHECK((g2 >= g1) == true);
 }
+TEST_CASE("Test negetive cycle")
+{
+    std::vector<std::vector<int>> graph10 = {
+        {0, 1, 0, 3},  // A
+        {0, 0, -1, 0}, // B
+        {0, 0, 0, -1}, // C
+        {0, -1, 0, 0}  // D
+    };
+    // ariel::Graph g5;
+    ariel::Graph g5;
+    g5.loadGraph(graph10);
+
+    CHECK((ariel::Algorithms::negativeCycle(g5)) == "Negative cycle found: 1 -> 2 -> 3 -> 1\n");
+}
+TEST_CASE("Test empty matrix throws exception")
+{
+    std::vector<std::vector<int>> emptyGraph; // Create an empty vector
+    ariel::Graph g;
+
+    CHECK_THROWS_AS(g.loadGraph(emptyGraph), std::invalid_argument);
+}
+
+TEST_CASE("Test empty matrix throws exception")
+{
+    std::vector<std::vector<int>> graph = {
+        {1, 1, 0, 3},  // A
+        {0, 1, -1, 0}, // B
+        {0, 0, 1, -1}, // C
+        {0, -1, 0, 1}  // D
+    }; // the diagnel not 0
+    ariel::Graph g;
+
+    CHECK_THROWS_AS(g.loadGraph(graph), std::invalid_argument);
+}

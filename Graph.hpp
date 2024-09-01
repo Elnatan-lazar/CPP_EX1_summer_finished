@@ -13,7 +13,7 @@ namespace ariel
     {
 
     private:
-        std::vector<std::vector<int>> adjacency_matrix;
+            std::vector<std::vector<int>> adjacency_matrix;
         int num_vertices;
         int num_edges;
         bool isDirect;

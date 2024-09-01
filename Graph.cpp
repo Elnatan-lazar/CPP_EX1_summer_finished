@@ -6,11 +6,15 @@ namespace ariel
 {
     const std::string RED = "\033[31m";  // Red text
     const std::string RESET = "\033[0m"; // Reset to default color
-    Graph::Graph() : num_vertices(0), num_edges(0), isDirect(false) {}
+    Graph::Graph() : num_vertices(0), num_edges(0), isDirect(false), adjacency_matrix() {}
     // ANSI escape codes for colors
 
     void Graph::loadGraph(const std::vector<std::vector<int>> &matrix)
     {
+        if (matrix.empty())
+        {
+            throw std::invalid_argument("Error: The input matrix is empty.");
+        }
         // Check if the matrix is square
         size_t n = matrix.size();
         int r = 0;
@@ -40,17 +44,7 @@ namespace ariel
 
                 if (adjacency_matrix[i][j] != 0 && i == j)
                 {
-                    std::cout << "diagnel =" << adjacency_matrix[i][j] << std::endl;
 
-                    for (const auto &row : adjacency_matrix)
-                    {
-                        // Loop through each element in the row
-                        for (const auto &element : row)
-                        {
-                            std::cout << element << " ";
-                        }
-                        std::cout << std::endl; // Move to the next line after each row
-                    }
                     throw std::invalid_argument("Invalid graph: need to be 0 in the main diagnal, matrix == 0");
                 }
             }

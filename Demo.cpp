@@ -118,6 +118,6 @@ int main()
     };
     // ariel::Graph g5;
     g5.loadGraph(graph10);
-    std::cout << "check negetive cycle \n";
+
     std::cout << Algorithms::negativeCycle(g5);
 }
