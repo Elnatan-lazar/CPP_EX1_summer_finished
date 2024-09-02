@@ -4,10 +4,22 @@
 #include <iomanip>
 namespace ariel
 {
+    // ANSI escape codes for colors
     const std::string RED = "\033[31m";  // Red text
     const std::string RESET = "\033[0m"; // Reset to default color
+
+    /**
+     * @brief Default constructor for the Graph class.
+     * Initializes an empty graph with no vertices or edges.
+     */
     Graph::Graph() : num_vertices(0), num_edges(0), isDirect(false), adjacency_matrix() {}
-    // ANSI escape codes for colors
+
+    /**
+     * @brief Loads a graph from a given adjacency matrix.
+     *
+     * @param matrix A square matrix representing the graph.
+     * @throws std::invalid_argument If the matrix is empty or not square, or if any diagonal elements are non-zero.
+     */
 
     void Graph::loadGraph(const std::vector<std::vector<int>> &matrix)
     {
@@ -62,12 +74,15 @@ namespace ariel
                 }
             }
         }
-        // if (!isDirect)
-        // {
-        //     num_edges = num_edges / 2; // if it undirect graph we nee to dived the edges by 2 to prevent duplicate.
-        // }
+        if (!isDirect)
+        {
+            num_edges = num_edges / 2; // if it undirect graph we nee to dived the edges by 2 to prevent duplicate.
+        }
     }
 
+    /**
+     * @brief Checks if the graph is directed by comparing adjacency matrix elements.
+     */
     void Graph::checkIfDirect()
     {
         size_t n = adjacency_matrix.size();
@@ -84,30 +99,61 @@ namespace ariel
         }
     }
 
+    /**
+     * @brief Returns the number of edges in the graph.
+     *
+     * @return int The number of edges.
+     */
     int Graph::getNumEdges() const
     {
 
         return num_edges;
     }
 
+    /**
+     * @brief Prints a summary of the graph including the number of vertices and edges.
+     */
     void Graph::printGraph() const
     {
         std::cout << "Graph with " << num_vertices << " vertices and " << getNumEdges() << " edges." << std::endl;
     }
+
+    /**
+     * @brief Returns the number of vertices in the graph.
+     *
+     * @return int The number of vertices.
+     */
     int Graph::getNumVertices() const
     {
         return num_vertices;
     }
+
+    /**
+     * @brief Checks if the graph is directed.
+     *
+     * @return bool True if the graph is directed, false otherwise.
+     */
     bool Graph::getDirect() const
     {
         return isDirect;
     }
 
+    /**
+     * @brief Returns the adjacency matrix of the graph.
+     *
+     * @return std::vector<std::vector<int>> The adjacency matrix.
+     */
     std::vector<std::vector<int>> Graph::getAdjacencyMatrix() const
     {
         return adjacency_matrix;
     }
 
+    /**
+     * @brief Multiplies the graph's adjacency matrix by a scalar.
+     *
+     * @param scalar The scalar value to multiply each element by.
+     * @return Graph A new graph with the scaled adjacency matrix.
+     */
     ariel::Graph ariel::Graph::operator*(int scalar) const
     {
         Graph result;
@@ -153,6 +199,13 @@ namespace ariel
         return result;
     }
 
+    /**
+     * @brief Adds two graphs by adding their adjacency matrices.
+     *
+     * @param other The graph to add.
+     * @return Graph A new graph that is the sum of this graph and the other graph.
+     * @throws std::invalid_argument If the graphs have different sizes.
+     */
     Graph Graph::operator+(const Graph &other) const
     {
         if (num_vertices != other.num_vertices)
@@ -174,7 +227,13 @@ namespace ariel
         return result;
     }
 
-    // Overload += operator
+    /**
+     * @brief Adds another graph to this graph using the += operator.
+     *
+     * @param other The graph to add.
+     * @return Graph& Reference to the current graph after addition.
+     * @throws std::invalid_argument If the graphs have different sizes.
+     */
     Graph &ariel::Graph::operator+=(const Graph &other)
     {
         if (num_vertices != other.num_vertices)
@@ -194,13 +253,23 @@ namespace ariel
         return *this;
     }
 
-    // Overload unary + operator
+    /**
+     * @brief Returns a copy of the current graph using the unary + operator.
+     *
+     * @return Graph A copy of the current graph.
+     */
     Graph Graph::operator+() const
     {
         return *this; // Unary + returns a copy of the current graph
     }
 
-    // Overload - operator
+    /**
+     * @brief Subtracts another graph from this graph using the - operator.
+     *
+     * @param other The graph to subtract.
+     * @return Graph A new graph that is the difference between this graph and the other graph.
+     * @throws std::invalid_argument If the graphs have different sizes.
+     */
     Graph Graph::operator-(const Graph &other) const
     {
         if (num_vertices != other.num_vertices)
@@ -222,7 +291,13 @@ namespace ariel
         return result;
     }
 
-    // Overload -= operator
+    /**
+     * @brief Subtracts another graph from this graph using the -= operator.
+     *
+     * @param other The graph to subtract.
+     * @return Graph& Reference to the current graph after subtraction.
+     * @throws std::invalid_argument If the graphs have different sizes.
+     */
     ariel::Graph &ariel::Graph::operator-=(const Graph &other)
     {
         if (num_vertices != other.num_vertices)
@@ -242,7 +317,12 @@ namespace ariel
         return *this;
     }
 
-    // Overload unary - operator
+    /**
+     * @brief Returns the negative of the current graph using the unary - operator.
+     * Each element of the adjacency matrix is multiplied by -1.
+     *
+     * @return Graph A new graph that is the negative of the current graph.
+     */
     Graph Graph::operator-() const
     {
         Graph result = *this; // Copy current graph to result
@@ -303,6 +383,10 @@ namespace ariel
         return temp;        // Return the old state
     }
 
+    /**
+     * @brief Prints the graph's adjacency matrix with colored indices.
+     * Uses ANSI escape codes for colored text output.
+     */
     std::ostream &operator<<(std::ostream &os, const Graph &graph)
     {
         os << "Graph with " << graph.num_vertices << " vertices and " << graph.getNumEdges() << " edges." << std::endl;
@@ -335,6 +419,9 @@ namespace ariel
         return os;
     }
 
+    // Scales the adjacency matrix of the graph by multiplying each element by the given scalar.
+    // Updates the graph in place and returns a reference to the updated graph.
+
     Graph &Graph::operator*=(int scalar)
     {
 
@@ -348,6 +435,8 @@ namespace ariel
 
         return *this;
     }
+    // Creates and returns a new graph where the adjacency matrix is divided by the given scalar.
+    // Throws an exception if the scalar is zero.
 
     Graph Graph::operator/(int scalar) const
     {
@@ -360,6 +449,8 @@ namespace ariel
         return result *= (1 / static_cast<double>(scalar)); // Multiply by reciprocal
     }
 
+    // Scales down the adjacency matrix of the graph by dividing each element by the given scalar.
+    // Updates the graph in place and throws an exception if the scalar is zero.
     Graph &Graph::operator/=(int scalar)
     {
         if (scalar == 0)
@@ -376,6 +467,8 @@ namespace ariel
         return *this;
     }
 
+    // Checks if the current graph contains a submatrix that is identical to or has the same
+    // edges with equal or higher weights compared to the other graph. Returns true if it is a submatrix.
     bool Graph::isSubmatrix(const Graph &other) const
     {
         // if the other graph has more vertices or edges it cant be a sub graph of the this graph
@@ -409,6 +502,8 @@ namespace ariel
         }
     }
 
+    // Compares two graphs based on their submatrix relationship and the number of edges and vertices.
+    // Returns true if the current graph is greater than the other graph.
     bool Graph::operator>(const Graph &other) const
     {
 
@@ -440,11 +535,13 @@ namespace ariel
         return false;
     }
 
+    // Compares two graphs and returns true if the current graph is greater than or equal to the other graph.
     bool Graph::operator>=(const Graph &other) const
     {
         return (*this > other) || (*this == other);
     }
 
+    // Compares two graphs and returns true if the current graph is less than the other graph.
     bool Graph::operator<(const Graph &other) const
     {
 
@@ -476,11 +573,14 @@ namespace ariel
         return false;
     }
 
+    // Compares two graphs and returns true if the current graph is less than or equal to the other graph.
     bool Graph::operator<=(const Graph &other) const
     {
         return !(*this > other);
     }
 
+    // Checks if the adjacency matrix of the current graph is equal to that of the other graph.
+    // Returns true if they are equal in terms of vertex count and edge weights.
     bool Graph::checkIfMatrixEquel(const Graph &other) const
     {
         if (other.num_vertices != this->num_vertices)
@@ -503,6 +603,8 @@ namespace ariel
         return true;
     }
 
+    // Compares two graphs for equality based on their adjacency matrices and edge counts.
+    // Returns true if the matrices and edge counts are equal.
     bool Graph::operator==(const Graph &other) const
     {
 
@@ -517,11 +619,14 @@ namespace ariel
         return true;
     }
 
+    // Compares two graphs for inequality and returns true if they are not equal.
     bool Graph::operator!=(const Graph &other) const
     {
         return !(*this == other);
     }
 
+    // Multiplies the adjacency matrix of the current graph with the adjacency matrix of another graph.
+    // Returns a new graph with the resulting adjacency matrix after matrix multiplication.
     Graph Graph::operator*(const Graph &other) const
     {
         if (adjacency_matrix[0].size() != other.adjacency_matrix.size())
