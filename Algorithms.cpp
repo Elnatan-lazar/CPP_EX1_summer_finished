@@ -11,7 +11,7 @@
 
 namespace ariel
 {
-    // Utility function to perform BFS for isConnected
+    // Breadth-First Search (BFS) algorithm to mark all reachable vertices from the start vertex
     static void bfs(const Graph &g, int start, std::vector<bool> &visited)
     {
         std::queue<int> q;
@@ -33,6 +33,7 @@ namespace ariel
         }
     }
 
+    // Checks if the graph is connected by performing BFS from vertex 0
     bool Algorithms::isConnected(const Graph &g)
     {
         size_t vertices = static_cast<size_t>(g.getNumVertices()); // Use size_t for size-related operations
@@ -53,6 +54,7 @@ namespace ariel
         return connected;
     }
 
+    // Finds the shortest path from the start vertex to the end vertex using BFS
     std::string Algorithms::shortestPath(const Graph &g, int start, int end)
     {
         size_t vertices = static_cast<size_t>(g.getNumVertices()); // Use size_t for size-related operations
@@ -90,6 +92,7 @@ namespace ariel
         return path.substr(0, path.length() - 2);
     }
 
+    // Checks if the graph contains a cycle using Depth-First Search (DFS)
     bool Algorithms::isContainsCycle(const Graph &g)
     {
         size_t vertices = static_cast<size_t>(g.getNumVertices()); // Use size_t for size-related operations
@@ -141,6 +144,7 @@ namespace ariel
         return false;
     }
 
+    // Checks if the graph is bipartite using Breadth-First Search (BFS)
     std::string Algorithms::isBipartite(const Graph &g)
     {
         size_t vertices = static_cast<size_t>(g.getNumVertices()); // Use size_t for size-related operations
@@ -196,6 +200,7 @@ namespace ariel
         return "The graph is bipartite: A={" + A + "}, B={" + B + "}";
     }
 
+    // Placeholder for negative cycle detection function
     std::string Algorithms::negativeCycle(const Graph &g)
     {
         size_t V = static_cast<size_t>(g.getNumVertices()); // Use size_t to match the type returned by getNumVertices()
